@@ -10,4 +10,23 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
+    <string-array name="menu_navigation_items">
+        <item>News</item>
+        <item>Events</item>
+        <item>Problems Report</item>
+        <item>Contacts</item>
+        <item>Maps</item>
+        <item>Jobs</item>
+        <item>About Us</item>
+    </string-array>
+    
+    <integer-array name="menu_navigation_icons">
+        <item>@drawable/ic_action_warning</item>
+        <item>@drawable/ic_action_go_to_today</item>
+        <item>@drawable/ic_action_error</item>
+        <item>@drawable/ic_action_group</item>
+        <item>@drawable/ic_action_place</item>
+        <item>@drawable/ic_action_email</item>
+        <item>@drawable/ic_action_about</item>
+    </integer-array>
 </resources>

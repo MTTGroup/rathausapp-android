@@ -1,6 +1,13 @@
-package de.mtt.rathaus.android;
+package de.mtt.rathaus.android.activities;
 
 
+import de.mtt.rathaus.android.R;
+import de.mtt.rathaus.android.R.id;
+import de.mtt.rathaus.android.R.layout;
+import de.mtt.rathaus.android.R.menu;
+import de.mtt.rathaus.android.R.string;
+import de.mtt.rathaus.android.fragments.MenuNavigationFragment;
+import de.mtt.rathaus.android.fragments.MenuNavigationFragment.NavigationDrawerCallbacks;
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -20,12 +27,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 
-public class HomeActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class HomeActivity extends ActionBarActivity implements MenuNavigationFragment.NavigationDrawerCallbacks {
 
 	/**
 	 * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
 	 */
-	private NavigationDrawerFragment	mNavigationDrawerFragment;
+	private MenuNavigationFragment	mNavigationDrawerFragment;
 
 	/**
 	 * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -38,7 +45,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationDrawerF
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(
+		mNavigationDrawerFragment = (MenuNavigationFragment) getSupportFragmentManager().findFragmentById(
 				R.id.navigation_drawer);
 		mTitle = getTitle();
 
