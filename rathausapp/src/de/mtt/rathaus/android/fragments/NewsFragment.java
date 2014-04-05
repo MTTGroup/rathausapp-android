@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import de.mtt.rathaus.android.R;
 import de.mtt.rathaus.android.activities.HomeActivity;
 
-public class ContactsFragment extends Fragment {
+/**
+ * @author vpham
+ * NewsFragment represents latest news
+ */
+public class NewsFragment extends Fragment {
 	/**
 	 * The fragment argument representing the menu navigation id for this fragment.
 	 */
@@ -19,8 +23,8 @@ public class ContactsFragment extends Fragment {
 	/**
 	 * Customized Bundle Args for each Fragment
 	 */
-	public static ContactsFragment newInstance(int sectionNumber) {
-		ContactsFragment fragment = new ContactsFragment();
+	public static NewsFragment newInstance(int sectionNumber) {
+		NewsFragment fragment = new NewsFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_MENU_NAVIGATION, sectionNumber);
 		fragment.setArguments(args);
@@ -28,7 +32,7 @@ public class ContactsFragment extends Fragment {
 	}
 
 
-	public ContactsFragment() {
+	public NewsFragment() {
 	}
 
 

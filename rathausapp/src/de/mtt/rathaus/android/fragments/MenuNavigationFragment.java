@@ -1,14 +1,12 @@
 package de.mtt.rathaus.android.fragments;
 
-import de.mtt.rathaus.android.R;
-import de.mtt.rathaus.android.R.drawable;
-import de.mtt.rathaus.android.R.id;
-import de.mtt.rathaus.android.R.layout;
-import de.mtt.rathaus.android.R.menu;
-import de.mtt.rathaus.android.R.string;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -24,9 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import de.mtt.rathaus.android.R;
+import de.mtt.rathaus.android.adapter.MenuNavigationAdapter;
+import de.mtt.rathaus.android.model.MenuNavigation;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -57,12 +56,18 @@ public class MenuNavigationFragment extends Fragment {
 	private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
 	/**
+	 * Menu Navigation Adapter
+	 */
+	private MenuNavigationAdapter adapter;
+	private final List<MenuNavigation> items = new ArrayList<MenuNavigation>();
+
+	/**
 	 * A pointer to the current callbacks instance (the Activity).
 	 */
 	private NavigationDrawerCallbacks mCallbacks;
-
 	private int mCurrentSelectedPosition = 0;
 	private DrawerLayout mDrawerLayout;
+
 	private ListView mDrawerListView;
 
 	/**
@@ -125,6 +130,21 @@ public class MenuNavigationFragment extends Fragment {
 
 		// Select either the default item (0) or the last selected item.
 		selectItem(mCurrentSelectedPosition);
+
+		TypedArray icons = getActivity().getResources().obtainTypedArray(R.array.menu_navigation_icons);
+		String[] titles = getActivity().getResources().getStringArray(R.array.menu_navigation_items);
+		for(int i = 0; i< titles.length; i++){
+			MenuNavigation item = new MenuNavigation();
+			item.setIcon(icons.getResourceId(i, 0));
+			item.setTitle(titles[i]);
+			item.setStatus("1");
+			item.setId(i);
+			items.add(item);
+		}
+		icons.recycle();
+		//Create menu options
+		adapter = new MenuNavigationAdapter(getActivity(), items);
+
 	}
 
 	@Override
@@ -132,7 +152,7 @@ public class MenuNavigationFragment extends Fragment {
 		// If the drawer is open, show the global app actions in the action bar. See also
 		// showGlobalContextActionBar, which controls the top-left area of the action bar.
 		if (mDrawerLayout != null && isDrawerOpen()) {
-			inflater.inflate(R.menu.global, menu);
+			inflater.inflate(R.menu.home, menu);
 			showGlobalContextActionBar();
 		}
 		super.onCreateOptionsMenu(menu, inflater);
@@ -149,15 +169,8 @@ public class MenuNavigationFragment extends Fragment {
 				selectItem(position);
 			}
 		});
-		mDrawerListView.setAdapter(new ArrayAdapter<String>(
-				getActionBar().getThemedContext(),
-				android.R.layout.simple_list_item_1,
-				android.R.id.text1,
-				new String[]{
-					getString(R.string.title_section1),
-					getString(R.string.title_section2),
-					getString(R.string.title_section3),
-				}));
+
+		mDrawerListView.setAdapter(adapter);
 		mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 		return mDrawerListView;
 	}
@@ -174,8 +187,8 @@ public class MenuNavigationFragment extends Fragment {
 			return true;
 		}
 
-		if (item.getItemId() == R.id.action_example) {
-			Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+		if (item.getItemId() == R.id.action_settings) {
+			//Goto Settings
 			return true;
 		}
 

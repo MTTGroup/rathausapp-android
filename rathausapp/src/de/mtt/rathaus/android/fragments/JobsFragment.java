@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import de.mtt.rathaus.android.R;
 import de.mtt.rathaus.android.activities.HomeActivity;
 
-public class ContactsFragment extends Fragment {
+public class JobsFragment extends Fragment {
 	/**
 	 * The fragment argument representing the menu navigation id for this fragment.
 	 */
@@ -19,8 +19,8 @@ public class ContactsFragment extends Fragment {
 	/**
 	 * Customized Bundle Args for each Fragment
 	 */
-	public static ContactsFragment newInstance(int sectionNumber) {
-		ContactsFragment fragment = new ContactsFragment();
+	public static JobsFragment newInstance(int sectionNumber) {
+		JobsFragment fragment = new JobsFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_MENU_NAVIGATION, sectionNumber);
 		fragment.setArguments(args);
@@ -28,7 +28,7 @@ public class ContactsFragment extends Fragment {
 	}
 
 
-	public ContactsFragment() {
+	public JobsFragment() {
 	}
 
 

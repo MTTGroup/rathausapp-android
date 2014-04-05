@@ -10,57 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.mtt.rathaus.android.R;
-import de.mtt.rathaus.android.adapter.MenuNavigationAdapter.MenuNavigation;
+import de.mtt.rathaus.android.interfaces.OnMenuNavigationUpdatedListener;
+import de.mtt.rathaus.android.model.MenuNavigation;
 
 
-public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> {
-
-	public class MenuNavigation{
-		private int icon;
-		private String status;
-		private String title;
-
-		public MenuNavigation(){
-		}
-
-		public MenuNavigation(int icon, String title, String status){
-			this.icon = icon;
-			this.title=title;
-			this.status=status;
-		}
-
-
-		public int getIcon() {
-			return icon;
-		}
-
-
-		public String getStatus() {
-			return status;
-		}
-
-
-		public String getTitle() {
-			return title;
-		}
-
-
-		public void setIcon(int icon) {
-			this.icon = icon;
-		}
-
-
-		public void setStatus(String status) {
-			this.status = status;
-		}
-
-
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
-
-	};
+public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> implements OnMenuNavigationUpdatedListener {
 
 	static class ViewHolder {
 		ImageView icon;
@@ -100,7 +54,7 @@ public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> {
 
 			ViewHolder holder = new ViewHolder();
 			holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-			holder.title = (TextView) convertView.findViewById(R.id.status);
+			holder.title = (TextView) convertView.findViewById(R.id.title);
 			holder.status = (TextView) convertView.findViewById(R.id.status);
 			convertView.setTag(holder);
 		}
@@ -109,10 +63,24 @@ public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> {
 		MenuNavigation object = getItem(position);
 		if (object != null) {
 			holder.icon.setImageResource(object.getIcon());
-			holder.title.setText(object.getStatus());
-			holder.status.setText(object.getStatus());
+			holder.title.setText(object.getTitle());
+			if(object.getStatus()==null || object.getStatus().equals("")){
+				holder.status.setVisibility(View.GONE);
+			}else{
+				holder.status.setVisibility(View.VISIBLE);
+				holder.status.setText(object.getStatus());
+			}
 		}
 
 		return convertView;
+	}
+
+	@Override
+	public void onMenuNavigationUpdated(int position, String status) {
+		MenuNavigation item = getItem(position);
+		if(item!=null){
+			item.setStatus(status);
+			notifyDataSetChanged();
+		}
 	}
 }
