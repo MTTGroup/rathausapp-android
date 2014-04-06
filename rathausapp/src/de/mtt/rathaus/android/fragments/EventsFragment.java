@@ -1,5 +1,7 @@
 package de.mtt.rathaus.android.fragments;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import de.mtt.rathaus.android.R;
 import de.mtt.rathaus.android.activities.HomeActivity;
+import de.mtt.rathaus.android.data.DataManager;
+import de.mtt.rathaus.android.model.Event;
 
 /**
  * @author vpham
@@ -45,9 +49,15 @@ public class EventsFragment extends Fragment {
 
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		List<Event> events = DataManager.getInstance(getActivity()).getEvents();
+		events.size();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 		return rootView;
 	}
-
 }
