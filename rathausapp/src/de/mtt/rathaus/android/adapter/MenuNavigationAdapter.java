@@ -10,11 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.mtt.rathaus.android.R;
-import de.mtt.rathaus.android.interfaces.OnMenuNavigationUpdatedListener;
 import de.mtt.rathaus.android.model.MenuNavigation;
 
 
-public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> implements OnMenuNavigationUpdatedListener {
+public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> {
 
 	static class ViewHolder {
 		ImageView icon;
@@ -75,12 +74,15 @@ public class MenuNavigationAdapter extends ArrayAdapter<MenuNavigation> implemen
 		return convertView;
 	}
 
-	@Override
-	public void onMenuNavigationUpdated(int position, String status) {
-		MenuNavigation item = getItem(position);
-		if(item!=null){
-			item.setStatus(status);
-			notifyDataSetChanged();
+	public void setStatus(int position, int count){
+		if(position==0){
+			//get the number of new events
+			if(count>0) {
+				getItem(position).setStatus(String.valueOf(count));
+				notifyDataSetChanged();
+			}
 		}
+
 	}
+
 }

@@ -1,12 +1,14 @@
 package de.mtt.rathaus.android.fragments;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -25,6 +27,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import de.mtt.rathaus.android.R;
 import de.mtt.rathaus.android.adapter.MenuNavigationAdapter;
+import de.mtt.rathaus.android.data.DataManager;
+import de.mtt.rathaus.android.model.Event;
 import de.mtt.rathaus.android.model.MenuNavigation;
 
 /**
@@ -90,6 +94,15 @@ public class MenuNavigationFragment extends Fragment {
 		return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
 	}
 
+	private boolean isNewEvent(Date date){
+		Date today = new Date();
+		if(today.before(date)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	@Override
 	public void onActivityCreated (Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -137,7 +150,7 @@ public class MenuNavigationFragment extends Fragment {
 			MenuNavigation item = new MenuNavigation();
 			item.setIcon(icons.getResourceId(i, 0));
 			item.setTitle(titles[i]);
-			item.setStatus("1");
+			item.setStatus("");
 			item.setId(i);
 			items.add(item);
 		}
@@ -193,6 +206,32 @@ public class MenuNavigationFragment extends Fragment {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		//Fetching the new status: new events, problems, contacts, emails...
+		new AsyncTask<Void, Void, List<Event>>() {
+			@Override
+			protected List<Event> doInBackground(Void... params) {
+				return DataManager.getInstance(getActivity()).getEvents();
+			}
+
+			@Override
+			protected void onPostExecute(List<Event> events) {
+				super.onPostExecute(events);
+				int counter = 0;
+				for(int i = 0; i< events.size(); i++ ){
+					Event object = events.get(i);
+					if(isNewEvent(object.getEndDate())){
+						counter++;
+					}
+				}
+				adapter.setStatus(0, counter);
+			}
+		}.execute();
 	}
 
 	@Override
