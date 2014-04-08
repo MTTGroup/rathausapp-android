@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:gravity="center_vertical">
 
@@ -63,11 +63,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="3"
-			android:paddingRight="5dp"
+			android:paddingRight="35dp"
             android:layout_alignParentLeft="true"
             android:text="Autoausstellung · Kinderkarussell · spektakuläre Übungen der Feuerwehr · verschiedene " />
 
         <ImageView
+            android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
