@@ -33,12 +33,14 @@ public class DataManager {
 
 	private Context context = null;
 
+	private List<Event> events = null;
+
 	private DataManager(Context ctx){
 		this.context = ctx;
 	}
 
 	public List<Event> getEvents(){
-		final List<Event> result = new ArrayList<Event>();
+		events = new ArrayList<Event>();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
 		query.setCachePolicy(CachePolicy.NETWORK_ELSE_CACHE);
 
@@ -59,14 +61,16 @@ public class DataManager {
 						event.setStartDate(object.getDate("Start_Date"));
 						event.setTitle(object.getString("Title"));
 						event.setUpdatedAt(object.getUpdatedAt());
-						result.add(event);
+						events.add(event);
 					}
 				}
 			}
 		} catch (ParseException e) {
 			Log.d(TAG, "FAILED TO FETCH EVENTS LIST! ERROR : " + e.getMessage() );
 		}
-		return result;
+
+		return events;
 	}
+
 
 }

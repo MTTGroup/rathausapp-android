@@ -4,17 +4,17 @@
     <string name="app_name">RathausApp</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_search">Search</string>
-	<string name="fragment_title_event_detail">Event Detail</string>
-	
+    <string name="action_search">Suchen</string>
+    <string name="fragment_title_event_detail">Detailveranstaltung</string>
+
     <string-array name="menu_navigation_items">
-        <item>Events</item>
-        <item>News</item>
-        <item>Problems Report</item>
-        <item>Contacts</item>
-        <item>Maps</item>
-        <item>Jobs</item>
-        <item>About Us</item>
+        <item>Veranstaltungen</item>
+        <item>Neuigkeiten</item>
+        <item>Störung melden</item>
+        <item>Ansprechpartner</item>
+        <item>Karte</item>
+        <item>Stellenangebot</item>
+        <item>Über Uns</item>
     </string-array>
     
     <array name="menu_navigation_icons">

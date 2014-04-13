@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import de.mtt.rathaus.android.R;
 import de.mtt.rathaus.android.activities.HomeActivity;
@@ -26,9 +29,18 @@ import de.mtt.rathaus.android.model.Event;
  */
 public class EventsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 	/**
+	 * Listener for selected event
+	 */
+	public static interface OnEventSelectedListener{
+		public void onEventSelected(Event event);
+	}
+
+	/**
 	 * The fragment argument representing the menu navigation id for this fragment.
 	 */
 	private static final String	ARG_MENU_NAVIGATION	= "menu_navigation_id";
+
+	private static final String TAG = EventsFragment.class.getCanonicalName();
 
 	/**
 	 * Customized Bundle Args for each Fragment
@@ -48,6 +60,8 @@ public class EventsFragment extends Fragment implements SwipeRefreshLayout.OnRef
 	private List<Event> events;
 
 	private AsyncTask<Void, Void, List<Event>> fetchingTask;
+
+	private OnEventSelectedListener listener;
 
 	private SwipeRefreshLayout refreshLayout;
 
@@ -105,13 +119,28 @@ public class EventsFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_events, container, false);
 		refreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.swipe_container);
 		refreshLayout.setOnRefreshListener(this);
 		setAppearance();
 		refreshLayout.setEnabled(true);
 		refreshLayout.setRefreshing(false);
 		eventList = (ListView)rootView.findViewById(R.id.eventList);
+		eventList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				/**
+				 * Goto EventDetail Fragment
+				 */
+				Fragment fragment = EventDetailFragment.newInstance();
+				FragmentTransaction transaction = getFragmentManager().beginTransaction();
+				transaction.replace(R.id.container, fragment);
+				transaction.addToBackStack(null);
+				transaction.commit();
+				listener = (OnEventSelectedListener)fragment;
+				listener.onEventSelected(events.get(position));
+			}
+		});
 
 		return rootView;
 	}
@@ -141,4 +170,5 @@ public class EventsFragment extends Fragment implements SwipeRefreshLayout.OnRef
 				R.color.yellow_dark,
 				R.color.yellow_light);
 	}
+
 }
